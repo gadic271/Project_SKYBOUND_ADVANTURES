@@ -54,7 +54,6 @@ public class GamePanel extends JPanel {
                     Math.min(background.getWidth(), width),
                     Math.min(background.getHeight(), height), null);
             int top, left;
-            // drawing the platforms
             for (Platform p : e.getPlatForms()) {
                 left = p.getX();
                 top = height - p.getY() - Platform.HEIGHT / 2;
@@ -63,7 +62,7 @@ public class GamePanel extends JPanel {
             }
             g.setColor(Color.RED);
             Hero b = e.getHero();
-            emoteDrawer.drawBallWithTail(g, b);
+            emoteDrawer.drawHeroWithTail(g, b);
             g.setColor(Color.BLACK);
             ((Graphics2D) g).setStroke(new BasicStroke(Platform.WIDTH / 2));
             g.drawRect(0, 0, width, height);

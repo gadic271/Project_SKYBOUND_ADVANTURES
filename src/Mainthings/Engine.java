@@ -18,12 +18,7 @@ public class Engine {
     private int scrollUpLimit;
     private int distanceBetweenPlatforms;
     private final long timerDelay = 100;
-    LinkedList<Platform> visiblePlatforms;;
-    /*
-     * invariant: the visiblePlatforms are supposed to always be in increasing
-     * order, in terms of the y coordinate of the platform
-     */
-
+    LinkedList<Platform> visiblePlatforms;
     private int variance;
     private ExecutorService pool = Executors.newFixedThreadPool(1);
     private Hero hero;
@@ -42,11 +37,6 @@ public class Engine {
         init();
         pool.execute(new Timer(this, timerDelay));
     }
-
-    /**
-     * this function can be called to re-set up the game, restoring it to its
-     * initial conditions
-     */
     public void init() {
         initPlatforms();
         initHero();
@@ -66,10 +56,8 @@ public class Engine {
             for (Score s : highScores) {
                 if (s == null)
                     return true;
-                    // there is still an empty spot in the high scores list
                 else if (s.getScore() > score)
                     return true;
-                // there is a score that can be evicted
             }
             return false;
         }
@@ -150,15 +138,11 @@ public class Engine {
     }
 
     private void updateHeroPos() {
-        // updating the ball position according to its velocity, and its
-        // velocity according to gravity.
         hero.updateX(WINDOW_WIDTH);
         if (hero.getY() < 0) {
             gameOverListener.actionPerformed(null);
             this.gameOver = true;
         } else if (hero.isMovingDown()) {
-            // only update smoothly (move one step at a time) when the ball is
-            // falling down. Otherwise just apply the difference of dy to y;
             while (hero.isMovingDown() && hero.shouldMoveY()) {
                 for (Platform p : visiblePlatforms) {
                     if (hasCollided(p)) {
@@ -167,7 +151,6 @@ public class Engine {
                         break;
                     } else if (p.getY() - Platform.HEIGHT / 2 > hero.getY()
                             + Hero.r) {
-                        // the platform check is above where the ball is.
                         break;
                     }
                 }
@@ -180,7 +163,6 @@ public class Engine {
     }
 
     private void updatePlatforms() {
-        // updating the platforms by deleting the olds ones if they appear
         int y = hero.getY();
         if (y > scrollUpLimit) {
             int diff = y - scrollUpLimit;

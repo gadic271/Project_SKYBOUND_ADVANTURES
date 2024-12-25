@@ -5,8 +5,7 @@ public class Hero {
     public static int initialUpVelocity = 10;
     public static int grav = 1;
     public static int dxReductionCounterInit = 3;
-    public static int maxDistance = initialUpVelocity * initialUpVelocity
-            / (2 * grav) - Hero.r;
+    public static int maxDistance = initialUpVelocity * initialUpVelocity / (2 * grav) - Hero.r;
 
     private final int dxMovementStepSize = 2;
 

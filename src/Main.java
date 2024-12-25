@@ -4,9 +4,6 @@ import Vizual.FiveCircleTail;
 import Vizual.Keys;
 import Mainthings.Engine;
 import Mainthings.Platform;
-/**
- * This class is stylized for using SWING to implement the GUI.
- */
 
 class Main {
     private static int width = 500;

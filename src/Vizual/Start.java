@@ -14,9 +14,6 @@ public class Start extends JPanel {
     private BufferedImage background;
     private int width;
     private int height;
-    /**
-     *
-     */
     private static final long serialVersionUID = 7365560470317243895L;
 
     public Start(final Engine engine, int width, int height) {
@@ -36,11 +33,7 @@ public class Start extends JPanel {
         g.drawImage(background, 0, 0, width, height, 0, 0,
                 Math.min(background.getWidth(), width),
                 Math.min(background.getHeight(), height), null);
-        /*
-         * drawing the text box that the title is on
-         */
-        g.drawRoundRect(width / 8, height * 3 / 8, width * 3 / 4, height / 4,
-                width / 8, height / 8);
+        g.drawRoundRect(width / 8, height * 3 / 8, width * 3 / 4, height / 4, width / 8, height / 8);
 
     }
 }

@@ -51,7 +51,6 @@ public class Keys {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
@@ -63,20 +62,15 @@ public class Keys {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                // TODO Auto-generated method stub
-
             }
         });
     }
@@ -96,19 +90,16 @@ public class Keys {
 
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseEntered(MouseEvent arg0) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseExited(MouseEvent arg0) {
-                // TODO Auto-generated method stub
 
             }
 
@@ -122,7 +113,6 @@ public class Keys {
 
             @Override
             public void mouseReleased(MouseEvent arg0) {
-                // TODO Auto-generated method stub
 
             }
 
@@ -147,13 +137,10 @@ public class Keys {
             public void keyPressed(KeyEvent arg0) {
                 int code = arg0.getKeyCode();
                 if (code == 39)
-                    // Right arrow key
                     e.moveRight();
                 else if (code == 37)
-                    // Left arrow key
                     e.moveLeft();
                 else if (code == 32)
-                    // spacebar
                     e.start();
                 else
                     System.out.println("key error :" + code);

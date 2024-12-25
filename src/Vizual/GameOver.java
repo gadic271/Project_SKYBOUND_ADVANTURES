@@ -19,10 +19,6 @@ import Mainthings.Engine;
 import Mainthings.Score;
 
 public class GameOver extends JPanel {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 5496400981778894020L;
 
     private BufferedImage background;
@@ -75,7 +71,6 @@ public class GameOver extends JPanel {
                     Engine.addScore(new Score(score, textBox.getText()));
                     Container parent = textBox.getParent();
                     parent.remove(textBox);
-                    // parent.revalidate();
                     parent.repaint();
                 }
 
