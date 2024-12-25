@@ -1,25 +1,37 @@
 package Mainthings;
+
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import Vizual.ViewListener;
 public class Engine {
     static int highScoresKept = 5;
+    private static Score[] highScores = new Score[highScoresKept];
+
+    private int score = 0;
     private int WINDOW_WIDTH;
     private int WINDOW_HEIGHT;
     private int scrollUpLimit;
     private int distanceBetweenPlatforms;
     private final long timerDelay = 100;
+    LinkedList<Platform> visiblePlatforms;;
+    /*
+     * invariant: the visiblePlatforms are supposed to always be in increasing
+     * order, in terms of the y coordinate of the platform
+     */
 
     private int variance;
     private ExecutorService pool = Executors.newFixedThreadPool(1);
     private Hero hero;
+    private ViewListener gui;
     private boolean hasStarted = false;
     private boolean gameOver = false;
     private ActionListener gameOverListener;
-    LinkedList<Platform> visiblePlatforms;
+
     public Engine(int width, int height) {
 
         WINDOW_HEIGHT = height;
@@ -28,12 +40,43 @@ public class Engine {
         variance = WINDOW_WIDTH / 10;
         distanceBetweenPlatforms = Hero.maxDistance;
         init();
+        pool.execute(new Timer(this, timerDelay));
     }
+
+    /**
+     * this function can be called to re-set up the game, restoring it to its
+     * initial conditions
+     */
     public void init() {
         initPlatforms();
         initHero();
         hasStarted = false;
         gameOver = false;
+        this.score = 0;
+    }
+
+    public static Score[] getHighScores() {
+        synchronized (highScores) {
+            return highScores;
+        }
+    }
+
+    public static boolean shouldAddScore(int score) {
+        synchronized (highScores) {
+            for (Score s : highScores) {
+                if (s == null)
+                    return true;
+                    // there is still an empty spot in the high scores list
+                else if (s.getScore() > score)
+                    return true;
+                // there is a score that can be evicted
+            }
+            return false;
+        }
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
     private void initHero() {
@@ -85,9 +128,9 @@ public class Engine {
         }
     }
 
-
     private void refillPlatforms() {
         Platform last;
+
         last = visiblePlatforms.get(visiblePlatforms.size() - 1);
         int ydiff;
         int xdiff;
@@ -102,15 +145,20 @@ public class Engine {
                 x += WINDOW_WIDTH;
             last = new Platform(x, last.getY() + ydiff);
             visiblePlatforms.add(last);
+            score += 1;
         }
     }
 
-    private void updateBallPos() {
+    private void updateHeroPos() {
+        // updating the ball position according to its velocity, and its
+        // velocity according to gravity.
         hero.updateX(WINDOW_WIDTH);
         if (hero.getY() < 0) {
             gameOverListener.actionPerformed(null);
             this.gameOver = true;
         } else if (hero.isMovingDown()) {
+            // only update smoothly (move one step at a time) when the ball is
+            // falling down. Otherwise just apply the difference of dy to y;
             while (hero.isMovingDown() && hero.shouldMoveY()) {
                 for (Platform p : visiblePlatforms) {
                     if (hasCollided(p)) {
@@ -119,6 +167,7 @@ public class Engine {
                         break;
                     } else if (p.getY() - Platform.HEIGHT / 2 > hero.getY()
                             + Hero.r) {
+                        // the platform check is above where the ball is.
                         break;
                     }
                 }
@@ -131,6 +180,7 @@ public class Engine {
     }
 
     private void updatePlatforms() {
+        // updating the platforms by deleting the olds ones if they appear
         int y = hero.getY();
         if (y > scrollUpLimit) {
             int diff = y - scrollUpLimit;
@@ -165,9 +215,10 @@ public class Engine {
         synchronized (this) {
             if (hasStarted) {
                 if (!gameOver) {
-                    updateBallPos();
+                    updateHeroPos();
                     updatePlatforms();
                 }
+                gui.actionPerformed();
 
             }
         }
@@ -189,6 +240,9 @@ public class Engine {
         }
     }
 
+    public void registerView(ViewListener object) {
+        gui = object;
+    }
 
     public void start() {
         synchronized (this) {
@@ -198,4 +252,22 @@ public class Engine {
                 init();
         }
     }
+
+    public static void addScore(Score s) {
+        synchronized (highScores) {
+            for (int i = 0; i < highScoresKept; i++) {
+                if (highScores[i] == null) {
+                    highScores[i] = s;
+                    return;
+                } else if (s.compareTo(highScores[i]) > 0) {
+                    for (int j = highScoresKept - 1; j > i; j--) {
+                        highScores[j] = highScores[j - 1];
+                    }
+                    highScores[i] = s;
+                    return;
+                }
+            }
+        }
+    }
 }
+

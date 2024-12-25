@@ -3,7 +3,7 @@ package Mainthings;
 public class Platform {
     private int x;
     private int y;
-    public static int WIDTH = 10;
+    public static int WIDTH = 50;
     public static int HEIGHT = 10;
 
     Platform(int x, int y) {
