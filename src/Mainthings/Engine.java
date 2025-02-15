@@ -32,8 +32,8 @@ public class Engine {
         WINDOW_HEIGHT = height;
         scrollUpLimit = WINDOW_HEIGHT * 4 / 5;
         WINDOW_WIDTH = width;
-        variance = WINDOW_WIDTH / 10;
-        distanceBetweenPlatforms = Hero.maxDistance;
+        variance = WINDOW_WIDTH / 7;
+        distanceBetweenPlatforms = (int) (Hero.maxDistance / 1.3);
         init();
         pool.execute(new Timer(this, timerDelay));
     }
