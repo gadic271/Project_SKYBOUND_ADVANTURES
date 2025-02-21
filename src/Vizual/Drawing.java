@@ -14,9 +14,9 @@ public final class Drawing {
         int left = cx - r;
         int top = cy - r;
         g.setColor(c);
-        g.fillOval(left, top, 2 * r, 2 * r);
+        g.fillRect(left, top, r*2, r*2);
         g.setColor(Color.black);
-        g.drawOval(left, top, 2*r, 2*r);
+        g.drawRect(left, top, r*2, r*2);
     }
 
     static void drawCircle(Graphics g, Color c, int cx, int cy, int r) {
@@ -24,7 +24,7 @@ public final class Drawing {
         int left = cx - r;
         int top = cy - r;
         g.setColor(c);
-        g.fillOval(left, top, 2 * r, 2 * r);
+        g.fillOval(left, top,  r,  r);
     }
 
 }

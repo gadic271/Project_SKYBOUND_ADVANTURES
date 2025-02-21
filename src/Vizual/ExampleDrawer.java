@@ -14,7 +14,7 @@ public abstract class ExampleDrawer {
         g.setColor(c);
         int newCx = cx+ Platform.WIDTH / 2;
         int newCy = height - cy;
-        Drawing.drawCircle(g, c, newCx, newCy, r);
+
     }
 
     protected void drawHeroWithBorder(Graphics g, Color c, int cx, int cy, int r) {
