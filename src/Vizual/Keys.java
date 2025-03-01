@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 import Mainthings.Engine;
 
 public class Keys {
-    public static String backgroundName = "images/background11.png";
-    public static URL backgroundURL = Keys.class.getResource("background11.png");
+    public static String backgroundName = "background.jpg";
+    public static String startButtonName = "Start.png";
+    public static URL backgroundURL = Keys.class.getResource("background.jpg");
+    public static URL startButtonURL = Keys.class.getResource("Start.png");
 
     private GamePanel game;
     private JPanel startScreen;
